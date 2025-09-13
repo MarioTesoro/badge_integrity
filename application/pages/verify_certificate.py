@@ -49,7 +49,7 @@ def render_page(cert_id,ipfs_hash):
             #result = contract.functions.isVerified(ipfs_hash).call()
             result = True
             if result:
-                st.Write("Certificate Successfully validated!")
+                st.success("Certificate Successfully validated!")
                 print(result)
     else:
         st.write("No certificate ID provided.")
@@ -58,7 +58,12 @@ def render_page(cert_id,ipfs_hash):
 render_page(cert_id,ipfs_hash)
 
 # Link back to home (or another page)
-st.markdown(
-    "[Go to home](?page=home)",
-    unsafe_allow_html=True
-)
+
+# st.markdown(
+#     """
+#     <script>
+#     window.location.href = "/";
+#     </script>
+#     """,
+#     unsafe_allow_html=True
+# )

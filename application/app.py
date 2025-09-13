@@ -8,7 +8,6 @@ hide_icons()
 hide_sidebar()
 remove_whitespaces()
 
-
 st.title("Certificate Validation System")
 st.write("")
 st.subheader("Select Your Role")
