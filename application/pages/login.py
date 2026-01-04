@@ -1,22 +1,34 @@
 import streamlit as st
-from db.firebase_app import login
+from auth.firebase_app import login
 from dotenv import load_dotenv
 import os
 from streamlit_extras.switch_page_button import switch_page
-from utils.streamlit_utils import hide_icons, hide_sidebar, remove_whitespaces
+from utils.streamlit_utils import apply_base_styles
 
-st.set_page_config(layout="wide", initial_sidebar_state="collapsed")
-hide_icons()
-hide_sidebar()
-remove_whitespaces()
+st.set_page_config(page_title="Login | Badge Integrity", layout="wide", initial_sidebar_state="collapsed")
+apply_base_styles()
 
 load_dotenv()
+profile = st.session_state.get("profile", "Verifier")
 
+st.markdown(
+    """
+    <div class="hero">
+        <div class="eyebrow">Access</div>
+        <h1>Welcome back.</h1>
+        <p>Sign in to continue to your dashboard.</p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
+
+st.markdown('<div class="app-card">', unsafe_allow_html=True)
 form = st.form("login")
-email = form.text_input("Enter your email")
-password = form.text_input("Enter your password", type="password")
+email = form.text_input("Email")
+password = form.text_input("Password", type="password")
+st.markdown('<p class="field-hint">Use the institute credentials from your .env when logging in as an institute.</p>', unsafe_allow_html=True)
 
-if st.session_state.profile != "Institute":
+if profile != "Institute":
     clicked_register = st.button("New user? Click here to register!")
 
     if clicked_register:
@@ -24,7 +36,7 @@ if st.session_state.profile != "Institute":
 
 submit = form.form_submit_button("Login")
 if submit:
-    if st.session_state.profile == "Institute":
+    if profile == "Institute":
         valid_email = os.getenv("institute_email")
         valid_pass = os.getenv("institute_password")
         if email == valid_email and password == valid_pass:
@@ -38,4 +50,5 @@ if submit:
             switch_page("verifier")
         else:
             st.error("Invalid credentials!")
+st.markdown("</div>", unsafe_allow_html=True)
         
